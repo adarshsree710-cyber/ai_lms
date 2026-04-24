@@ -3,6 +3,7 @@ from pathlib import Path
 import re
 
 import pandas as pd
+from rapidfuzz import process
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -163,18 +164,59 @@ class Recommender:
 
         self.df = pd.read_csv(data_path).fillna("")
         self.df["content"] = self.df[TEXT_COLUMNS].agg(" ".join, axis=1)
+        self._get_embeddings = get_embeddings
         self.embeddings = get_embeddings(self.df["content"].astype(str).tolist())
         self.similarity = cosine_similarity(self.embeddings)
+
+    def find_closest_course(self, query):
+        query = str(query or "").strip()
+        if not query:
+            return None
+
+        exact_matches = self.df[self.df["title"].str.lower() == query.lower()]
+        if not exact_matches.empty:
+            return exact_matches.iloc[0]["title"]
+
+        titles = self.df["title"].tolist()
+        match = process.extractOne(query, titles, score_cutoff=80)
+        if match:
+            return match[0]
+
+        expanded_query = self._expand_query_text(query.lower())
+        query_embedding = self._get_embeddings([expanded_query])
+        scores = cosine_similarity(query_embedding, self.embeddings)[0]
+        best_index = int(scores.argmax())
+        best_score = float(scores[best_index])
+
+        # Reject unrelated queries instead of forcing a random course match.
+        if best_score < 0.35:
+            return None
+
+        return self.df.iloc[best_index]["title"]
+
+    def _expand_query_text(self, query):
+        words = query.split()
+        expanded = list(words)
+
+        for word in words:
+            expanded.extend(QUERY_SYNONYMS.get(word, "").split())
+
+        return " ".join(expanded).strip()
 
     def get_similar(self, course_title):
         matches = self.df[self.df["title"].str.lower() == str(course_title).lower()]
         if matches.empty:
             matches = self.df[self.df["title"].str.contains(str(course_title), case=False, regex=False)]
         if matches.empty:
-            return []
+            return None, []
 
         idx = matches.index[0]
+        input_course = self.df.iloc[idx].to_dict()
         scores = list(enumerate(self.similarity[idx]))
         scores = sorted(scores, key=lambda item: item[1], reverse=True)
 
-        return [self.df.iloc[index].to_dict() for index, _score in scores[1:6]]
+        results = []
+        for index, _score in scores[1:6]:
+            results.append(self.df.iloc[index].to_dict())
+
+        return input_course, results

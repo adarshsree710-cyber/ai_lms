@@ -1,24 +1,21 @@
-def rank_courses(courses):
-
+def rank_courses(courses, input_course=None):
     ranked = []
 
     for course in courses:
-
         score = 0
 
-        # base similarity weight
-        score += 0.7
+        # Base similarity from the recommender stage.
+        score += 0.6
 
-        # difficulty preference (example logic)
-        if course["difficulty"] == "Beginner":
-            score += 0.2
+        if input_course is not None:
+            if course["difficulty"] == input_course["difficulty"]:
+                score += 0.2
 
-        # category boost
-        if course["category"] == "Programming":
-            score += 0.1
+            if course["category"] == input_course["category"]:
+                score += 0.2
 
         ranked.append((course["title"], score))
 
-    ranked.sort(key=lambda x: x[1], reverse=True)
+    ranked.sort(key=lambda item: item[1], reverse=True)
 
-    return [c[0] for c in ranked[:3]]
+    return [course_title for course_title, _score in ranked[:3]]
