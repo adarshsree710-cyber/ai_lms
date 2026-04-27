@@ -1,33 +1,14 @@
 # AI LMS Course Recommendation API
 
-FastAPI service for recommending related LMS courses from `data/courses.csv`.
+FastAPI service for recommending LMS courses from `data/courses.csv`.
 
 ## What It Does
 
-- Accepts a course name in a JSON request body.
-- Handles close title matches like `python basic`.
-- Returns the closest matching course plus ranked recommendations.
+- Lists all available courses.
+- Recommends ranked courses from a topic or learning goal.
+- Supports filters for difficulty, category, and language.
+- Handles natural queries like `beginner react`, `build websites`, and small typos like `pyhton`.
 - Exposes interactive Swagger docs at `/docs`.
-
-## Project Structure
-
-```text
-ai_lms/
-|-- api/
-|   `-- main.py
-|-- data/
-|   `-- courses.csv
-|-- models/
-|   |-- embedder.py
-|   |-- ranker.py
-|   `-- recommender.py
-|-- tests/
-|   |-- test_api.py
-|   `-- test_recommender.py
-|-- requirements.txt
-|-- run_api.bat
-`-- README.md
-```
 
 ## Setup
 
@@ -46,85 +27,90 @@ python -m pip install -r requirements.txt
 
 ## Run The API
 
-Preferred command:
-
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
 ```
 
-If port `8000` is already in use, run:
+Or run:
 
 ```powershell
-.\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8001
+.\run_api.bat
 ```
 
-You can also use:
-
-```powershell
-run_api.bat
-```
-
-Open the docs:
+Open Swagger:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-If you started on port `8001`, open:
-
-```text
-http://127.0.0.1:8001/docs
-```
-
-Notes:
-
-- On the first run, `sentence-transformers` may download `all-MiniLM-L6-v2`.
-- After the model is cached locally, the app prefers the local cache on later runs.
-- If `--reload` causes Windows permission errors, leave it off.
-
 ## Endpoints
 
 ### `GET /`
 
-Health check:
+Health check and endpoint links.
 
-```json
-{
-  "message": "API running"
-}
+### `GET /courses`
+
+Returns the full course catalog.
+
+### `GET /recommend`
+
+Use query parameters:
+
+```text
+http://127.0.0.1:8000/recommend?query=python&limit=3
+```
+
+Optional filters:
+
+```text
+difficulty=beginner
+category=Programming
+language=English
 ```
 
 ### `POST /recommend`
 
-Request body:
+Use this JSON body:
 
 ```json
 {
-  "course": "Python Basics"
+  "query": "python basic",
+  "limit": 3
 }
 ```
 
-Success response:
+Filtered example:
 
 ```json
 {
-  "status": "success",
-  "data": {
-    "course": "Python for Beginners",
-    "recommendations": [
-      "JavaScript Fundamentals",
-      "SQL and Database Design",
-      "React Basics"
-    ]
-  }
+  "query": "react",
+  "difficulty": "beginner",
+  "limit": 3
 }
 ```
 
-Not found response:
+Example response:
 
 ```json
 {
-  "error": "Course not found"
+  "query": "python basic",
+  "count": 3,
+  "recommendations": [
+    {
+      "course_id": "C107",
+      "title": "Python for Beginners",
+      "description": "Introduction to Python programming with hands on exercises",
+      "category": "Programming",
+      "tags": "python,basics",
+      "difficulty": "beginner",
+      "duration_hours": 14,
+      "instructor": "Meera Pillai",
+      "rating": 4.3,
+      "total_students": 1100,
+      "language": "English"
+    }
+  ]
 }
 ```
 
@@ -138,37 +124,10 @@ http://127.0.0.1:8000/docs
 
 Then:
 
-1. Open `POST /recommend`.
+1. Open `GET /recommend` or `POST /recommend`.
 2. Select `Try it out`.
-3. Paste a request body like:
-
-```json
-{
-  "course": "python basic"
-}
-```
-
+3. Enter `python`, `python basic`, `beginner react`, or `build websites`.
 4. Select `Execute`.
-
-Useful test cases:
-
-```json
-{
-  "course": "Python Basics"
-}
-```
-
-```json
-{
-  "course": "python basic"
-}
-```
-
-```json
-{
-  "course": "random course"
-}
-```
 
 ## Run Tests
 

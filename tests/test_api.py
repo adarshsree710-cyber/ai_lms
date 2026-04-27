@@ -1,55 +1,51 @@
 import unittest
-from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
 from api.main import app
 
 
-class FakeRecommender:
-    def find_closest_course(self, query):
-        normalized = str(query).strip().lower()
-        if normalized in {"python basics", "python basic"}:
-            return "Python for Beginners"
-        return None
-
-    def get_similar(self, course_title):
-        if course_title != "Python for Beginners":
-            return None, []
-
-        input_course = {
-            "title": "Python for Beginners",
-            "difficulty": "beginner",
-            "category": "Programming",
-        }
-        similar = [
-            {"title": "SQL and Database Design", "difficulty": "beginner", "category": "Database"},
-            {"title": "JavaScript Fundamentals", "difficulty": "beginner", "category": "Programming"},
-            {"title": "React Basics", "difficulty": "beginner", "category": "Frontend"},
-        ]
-        return input_course, similar
-
-
 class RecommendationApiTest(unittest.TestCase):
     def setUp(self):
         self.client = TestClient(app)
 
-    @patch("api.main.get_recommender", return_value=FakeRecommender())
-    def test_recommend_endpoint_accepts_close_match(self, _mock_recommender):
-        response = self.client.post("/recommend", json={"course": "python basic"})
+    def test_root_returns_api_links(self):
+        response = self.client.get("/")
         data = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(data["status"], "success")
-        self.assertEqual(data["data"]["course"], "Python for Beginners")
-        self.assertIn("recommendations", data["data"])
+        self.assertEqual(data["message"], "AI LMS recommendation API is running")
+        self.assertEqual(data["courses_endpoint"], "/courses")
+        self.assertEqual(data["docs_endpoint"], "/docs")
 
-    @patch("api.main.get_recommender", return_value=FakeRecommender())
-    def test_recommend_endpoint_returns_error_for_unknown_course(self, _mock_recommender):
-        response = self.client.post("/recommend", json={"course": "random course"})
+    def test_courses_endpoint_returns_catalog(self):
+        response = self.client.get("/courses")
+        data = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"error": "Course not found"})
+        self.assertGreater(data["count"], 0)
+        self.assertIn("title", data["courses"][0])
+
+    def test_recommend_get_returns_ranked_courses(self):
+        response = self.client.get("/recommend", params={"query": "python basic", "limit": 3})
+        data = response.json()
+        titles = [course["title"] for course in data["recommendations"]]
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data["query"], "python basic")
+        self.assertEqual(data["count"], 3)
+        self.assertIn("Python for Beginners", titles)
+
+    def test_recommend_post_supports_filters(self):
+        response = self.client.post(
+            "/recommend",
+            json={"query": "react", "difficulty": "beginner", "limit": 3},
+        )
+        data = response.json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertGreater(data["count"], 0)
+        self.assertTrue(all(course["difficulty"] == "beginner" for course in data["recommendations"]))
 
 
 if __name__ == "__main__":
