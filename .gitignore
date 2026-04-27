@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Dependencies
 node_modules/
 
@@ -22,3 +23,49 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
+=======
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Build output
+build/
+dist/
+*.egg-info/
+
+# Local config and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+uvicorn.out.log
+uvicorn.err.log
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local model/cache artifacts
+.cache/
+models_cache/
+*.safetensors
+*.pt
+*.pth
+>>>>>>> 429b1a044475f29da7078dcf42be85b2a33dad83
