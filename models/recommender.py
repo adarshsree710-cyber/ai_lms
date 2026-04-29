@@ -216,7 +216,9 @@ class Recommender:
         scores = sorted(scores, key=lambda item: item[1], reverse=True)
 
         results = []
-        for index, _score in scores[1:6]:
-            results.append(self.df.iloc[index].to_dict())
+        for index, score in scores[1:6]:
+            course = self.df.iloc[index].to_dict()
+            course["_similarity_score"] = float(score)
+            results.append(course)
 
         return input_course, results

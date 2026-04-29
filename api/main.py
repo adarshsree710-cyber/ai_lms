@@ -80,6 +80,22 @@ class RecommendationRequest(BaseModel):
     difficulty: str | None = Field(default=None, examples=["beginner"])
     category: str | None = Field(default=None, examples=["Programming"])
     language: str | None = Field(default=None, examples=["English"])
+    # ── Personalization fields ────────────────────────────────────────────────
+    user_level: str | None = Field(
+        default=None,
+        description="User skill level: beginner, intermediate, or advanced.",
+        examples=["beginner"],
+    )
+    weak_topics: list[str] = Field(
+        default=[],
+        description="Topics the user struggles with — courses covering these are ranked higher.",
+        examples=[["statistics", "loops"]],
+    )
+    completed_courses: list[str] = Field(
+        default=[],
+        description="Course titles the user already completed — excluded from results.",
+        examples=[["Python for Beginners"]],
+    )
 
 
 @app.get(
@@ -144,15 +160,49 @@ def recommend_get(
     summary="Recommend courses with a JSON body",
 )
 def recommend_post(payload: RecommendationRequest):
-    recommendations = recommender.recommend(
-        query=payload.query,
-        limit=payload.limit,
-        difficulty=payload.difficulty,
-        category=payload.category,
-        language=payload.language,
+    from models.ranker import rank_courses
+    from models.recommender import Recommender
+
+    # CourseRecommender handles the GET / simple query path.
+    # For personalized POST requests, use the embedding-based Recommender
+    # so we can attach similarity scores and apply user-level ranking.
+    rec = Recommender()
+    course_title = rec.find_closest_course(payload.query)
+
+    if course_title is None:
+        # Graceful fallback: use TF-IDF recommender without personalization.
+        recommendations = recommender.recommend(
+            query=payload.query,
+            limit=payload.limit,
+            difficulty=payload.difficulty or payload.user_level,
+            category=payload.category,
+            language=payload.language,
+        )
+        return {
+            "query": payload.query,
+            "count": len(recommendations),
+            "recommendations": recommendations,
+        }
+
+    input_course, similar = rec.get_similar(course_title)
+    ranked_titles = rank_courses(
+        similar,
+        input_course=input_course,
+        user_level=payload.user_level,
+        weak_topics=payload.weak_topics,
+        completed_courses=payload.completed_courses,
     )
+
+    # Return full course objects so the response matches RecommendationResponse.
+    title_set = set(ranked_titles)
+    ranked_courses = [c for c in similar if c["title"] in title_set]
+    ranked_courses.sort(key=lambda c: ranked_titles.index(c["title"]))
+    # Strip internal score key before returning.
+    for c in ranked_courses:
+        c.pop("_similarity_score", None)
+
     return {
         "query": payload.query,
-        "count": len(recommendations),
-        "recommendations": recommendations,
+        "count": len(ranked_courses),
+        "recommendations": ranked_courses,
     }

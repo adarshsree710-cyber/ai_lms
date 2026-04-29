@@ -1,21 +1,59 @@
-def rank_courses(courses, input_course=None):
+def rank_courses(
+    courses,
+    input_course=None,
+    user_level=None,
+    weak_topics=None,
+    completed_courses=None,
+):
+    """
+    Rank candidate courses using similarity score + optional personalization signals.
+
+    Parameters
+    ----------
+    courses          : list of course dicts from the recommender stage
+    input_course     : the course the user queried (used for category match)
+    user_level       : "beginner" / "intermediate" / "advanced"  (optional)
+    weak_topics      : list of topic strings the user struggles with (optional)
+    completed_courses: list of course titles the user already finished (optional)
+    """
+    weak_topics = [t.lower() for t in (weak_topics or [])]
+    completed_courses = {c.lower() for c in (completed_courses or [])}
+
     ranked = []
 
     for course in courses:
-        score = 0
+        # Skip courses the user already completed.
+        if course["title"].lower() in completed_courses:
+            continue
 
-        # Base similarity from the recommender stage.
-        score += 0.6
+        # ── Base: use the actual semantic similarity from the recommender ──────
+        # Falls back to 0.5 when the score wasn't attached (shouldn't happen).
+        score = float(course.get("_similarity_score", 0.5))
 
-        if input_course is not None:
-            if course["difficulty"] == input_course["difficulty"]:
-                score += 0.2
+        # ── Difficulty match ───────────────────────────────────────────────────
+        # Prefer: explicit user_level > input_course difficulty as fallback.
+        target_level = None
+        if user_level:
+            target_level = user_level.strip().lower()
+        elif input_course:
+            target_level = str(input_course.get("difficulty", "")).strip().lower()
 
-            if course["category"] == input_course["category"]:
-                score += 0.2
+        if target_level and course["difficulty"].lower() == target_level:
+            score += 0.2
+
+        # ── Category match ────────────────────────────────────────────────────
+        if input_course and course["category"] == input_course["category"]:
+            score += 0.1
+
+        # ── Weak-topic boost ──────────────────────────────────────────────────
+        # Check title and tags so niche matches (e.g. "statistics") surface.
+        title_lower = course["title"].lower()
+        tags_lower = str(course.get("tags", "")).lower()
+        for topic in weak_topics:
+            if topic in title_lower or topic in tags_lower:
+                score += 0.3
 
         ranked.append((course["title"], score))
 
     ranked.sort(key=lambda item: item[1], reverse=True)
-
-    return [course_title for course_title, _score in ranked[:3]]
+    return [title for title, _score in ranked[:3]]
