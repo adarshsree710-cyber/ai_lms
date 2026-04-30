@@ -4,6 +4,7 @@ def rank_courses(
     user_level=None,
     weak_topics=None,
     completed_courses=None,
+    limit=3,
 ):
     """
     Rank candidate courses using similarity score + optional personalization signals.
@@ -15,6 +16,7 @@ def rank_courses(
     user_level       : "beginner" / "intermediate" / "advanced"  (optional)
     weak_topics      : list of topic strings the user struggles with (optional)
     completed_courses: list of course titles the user already finished (optional)
+    limit            : maximum number of course titles to return
     """
     weak_topics = [t.lower() for t in (weak_topics or [])]
     completed_courses = {c.lower() for c in (completed_courses or [])}
@@ -56,4 +58,4 @@ def rank_courses(
         ranked.append((course["title"], score))
 
     ranked.sort(key=lambda item: item[1], reverse=True)
-    return [title for title, _score in ranked[:3]]
+    return [title for title, _score in ranked[:limit]]

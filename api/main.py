@@ -185,12 +185,27 @@ def recommend_post(payload: RecommendationRequest):
         }
 
     input_course, similar = rec.get_similar(course_title)
+    filters = {
+        "difficulty": payload.difficulty,
+        "category": payload.category,
+        "language": payload.language,
+    }
+    for field_name, expected_value in filters.items():
+        if expected_value:
+            expected_value = expected_value.strip().lower()
+            similar = [
+                course
+                for course in similar
+                if str(course.get(field_name, "")).strip().lower() == expected_value
+            ]
+
     ranked_titles = rank_courses(
         similar,
         input_course=input_course,
         user_level=payload.user_level,
         weak_topics=payload.weak_topics,
         completed_courses=payload.completed_courses,
+        limit=payload.limit,
     )
 
     # Return full course objects so the response matches RecommendationResponse.
