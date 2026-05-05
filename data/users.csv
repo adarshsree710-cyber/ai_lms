@@ -1,0 +1,97 @@
+name,email,password,role,enrolledCourses,isActive,teachingCourses
+Rahul Nair,rahul1@example.com,rahul123,student,[{'course': ObjectId('661c00000000000000000101')}],True,
+Anjali Menon,anjali2@example.com,anjali123,student,[{'course': ObjectId('661c00000000000000000101')}],True,
+Vishnu Das,vishnu3@example.com,vishnu123,student,[{'course': ObjectId('661c00000000000000000101')}],True,
+Meera Pillai,meera4@example.com,meera123,student,[{'course': ObjectId('661c00000000000000000101')}],True,
+Arjun Kumar,arjun5@example.com,arjun123,student,[{'course': ObjectId('661c00000000000000000101')}],True,
+Sneha R,sneha6@example.com,sneha123,student,[{'course': ObjectId('661c00000000000000000101')}],True,
+Kiran S,kiran7@example.com,kiran123,student,[{'course': ObjectId('661c00000000000000000102')}],True,
+Devika N,devika8@example.com,devika123,student,[{'course': ObjectId('661c00000000000000000102')}],True,
+Akash Babu,akash9@example.com,akash123,student,[{'course': ObjectId('661c00000000000000000102')}],True,
+Neha Joseph,neha10@example.com,neha123,student,[{'course': ObjectId('661c00000000000000000102')}],True,
+Abhishek Raj,abhishek11@example.com,abhishek123,student,[{'course': ObjectId('661c00000000000000000102')}],True,
+Pooja Krishnan,pooja12@example.com,pooja123,student,[{'course': ObjectId('661c00000000000000000102')}],True,
+Hari Mohan,hari13@example.com,hari123,student,[{'course': ObjectId('661c00000000000000000103')}],True,
+Lekha S,lekha14@example.com,lekha123,student,[{'course': ObjectId('661c00000000000000000103')}],True,
+Nikhil Roy,nikhil15@example.com,nikhil123,student,[{'course': ObjectId('661c00000000000000000103')}],True,
+Riya Thomas,riya16@example.com,riya123,student,[{'course': ObjectId('661c00000000000000000103')}],True,
+Manu Das,manu17@example.com,manu123,student,[{'course': ObjectId('661c00000000000000000103')}],True,
+Sona Paul,sona18@example.com,sona123,student,[{'course': ObjectId('661c00000000000000000103')}],True,
+Akhil Raj,akhil104a@example.com,akhil123,student,[{'course': ObjectId('661c00000000000000000104')}],True,
+Nithya S,nithya104b@example.com,nithya123,student,[{'course': ObjectId('661c00000000000000000104')}],True,
+Farhan Ali,farhan104c@example.com,farhan123,student,[{'course': ObjectId('661c00000000000000000104')}],True,
+Greeshma P,greeshma104d@example.com,greeshma123,student,[{'course': ObjectId('661c00000000000000000104')}],True,
+Jithin Kumar,jithin104e@example.com,jithin123,student,[{'course': ObjectId('661c00000000000000000104')}],True,
+Lakshmi R,lakshmi104f@example.com,lakshmi123,student,[{'course': ObjectId('661c00000000000000000104')}],True,
+Manoj Das,manoj105a@example.com,manoj123,student,[{'course': ObjectId('661c00000000000000000105')}],True,
+Pavithra N,pavithra105b@example.com,pavi1234,student,[{'course': ObjectId('661c00000000000000000105')}],True,
+Rohan B,rohan105c@example.com,rohan123,student,[{'course': ObjectId('661c00000000000000000105')}],True,
+Sandra M,sandra105d@example.com,sandra123,student,[{'course': ObjectId('661c00000000000000000105')}],True,
+Tejas K,tejas105e@example.com,tejas123,student,[{'course': ObjectId('661c00000000000000000105')}],True,
+Varsha L,varsha105f@example.com,varsha123,student,[{'course': ObjectId('661c00000000000000000105')}],True,
+Adarsh P,adarsh106a@example.com,adarsh123,student,[{'course': ObjectId('661c00000000000000000106')}],True,
+Bhavana T,bhavana106b@example.com,bhavana123,student,[{'course': ObjectId('661c00000000000000000106')}],True,
+Charan V,charan106c@example.com,charan123,student,[{'course': ObjectId('661c00000000000000000106')}],True,
+Diya S,diya106d@example.com,diya1234,student,[{'course': ObjectId('661c00000000000000000106')}],True,
+Ebin Mathew,ebin106e@example.com,ebin1234,student,[{'course': ObjectId('661c00000000000000000106')}],True,
+Fathima Noor,fathima106f@example.com,fathi123,student,[{'course': ObjectId('661c00000000000000000106')}],True,
+Gokul R,gokul107a@example.com,gokul123,student,[{'course': ObjectId('661c00000000000000000107')}],True,
+Hanna P,hanna107b@example.com,hanna123,student,[{'course': ObjectId('661c00000000000000000107')}],True,
+Irfan K,irfan107c@example.com,irfan123,student,[{'course': ObjectId('661c00000000000000000107')}],True,
+Jesna M,jesna107d@example.com,jesna123,student,[{'course': ObjectId('661c00000000000000000107')}],True,
+Karthik S,karthik107e@example.com,karthik123,student,[{'course': ObjectId('661c00000000000000000107')}],True,
+Leena Roy,leena107f@example.com,leena1234,student,[{'course': ObjectId('661c00000000000000000107')}],True,
+Midhun Raj,midhun108a@example.com,midhun123,student,[{'course': ObjectId('661c00000000000000000108')}],True,
+Nayana S,nayana108b@example.com,nayana123,student,[{'course': ObjectId('661c00000000000000000108')}],True,
+Omar Ali,omar108c@example.com,omar1234,student,[{'course': ObjectId('661c00000000000000000108')}],True,
+Parvathy R,parvathy108d@example.com,parvathy123,student,[{'course': ObjectId('661c00000000000000000108')}],True,
+Qadir M,qadir108e@example.com,qadir123,student,[{'course': ObjectId('661c00000000000000000108')}],True,
+Roshni P,roshni108f@example.com,roshni123,student,[{'course': ObjectId('661c00000000000000000108')}],True,
+Sanjay K,sanjay109a@example.com,sanjay123,student,[{'course': ObjectId('661c00000000000000000109')}],True,
+Tina Joseph,tina109b@example.com,tina1234,student,[{'course': ObjectId('661c00000000000000000109')}],True,
+Umesh V,umesh109c@example.com,umesh123,student,[{'course': ObjectId('661c00000000000000000109')}],True,
+Veena L,veena109d@example.com,veena1234,student,[{'course': ObjectId('661c00000000000000000109')}],True,
+Wasim A,wasim109e@example.com,wasim123,student,[{'course': ObjectId('661c00000000000000000109')}],True,
+Xavier D,xavier109f@example.com,xavier123,student,[{'course': ObjectId('661c00000000000000000109')}],True,
+Yadhu P,yadhu110a@example.com,yadhu123,student,[{'course': ObjectId('661c00000000000000000110')}],True,
+Zaina M,zaina110b@example.com,zaina123,student,[{'course': ObjectId('661c00000000000000000110')}],True,
+Ameer H,ameer110c@example.com,ameer123,student,[{'course': ObjectId('661c00000000000000000110')}],True,
+Bincy Roy,bincy110d@example.com,bincy123,student,[{'course': ObjectId('661c00000000000000000110')}],True,
+Cyril J,cyril110e@example.com,cyril123,student,[{'course': ObjectId('661c00000000000000000110')}],True,
+Deepa S,deepa110f@example.com,deepa123,student,[{'course': ObjectId('661c00000000000000000110')}],True,
+Eldho M,eldho111a@example.com,eldho123,student,[{'course': ObjectId('661c00000000000000000111')}],True,
+Femi K,femi111b@example.com,femi1234,student,[{'course': ObjectId('661c00000000000000000111')}],True,
+Gayathri P,gayathri111c@example.com,gaya1234,student,[{'course': ObjectId('661c00000000000000000111')}],True,
+Habeeb R,habeeb111d@example.com,habeeb123,student,[{'course': ObjectId('661c00000000000000000111')}],True,
+Indu N,indu111e@example.com,indu1234,student,[{'course': ObjectId('661c00000000000000000111')}],True,
+Jomon T,jomon111f@example.com,jomon123,student,[{'course': ObjectId('661c00000000000000000111')}],True,
+Kezia P,kezia112a@example.com,kezia123,student,[{'course': ObjectId('661c00000000000000000112')}],True,
+Lijo Mathew,lijo112b@example.com,lijo1234,student,[{'course': ObjectId('661c00000000000000000112')}],True,
+Minu R,minu112c@example.com,minu1234,student,[{'course': ObjectId('661c00000000000000000112')}],True,
+Noble S,noble112d@example.com,noble123,student,[{'course': ObjectId('661c00000000000000000112')}],True,
+Olivia J,olivia112e@example.com,olivia123,student,[{'course': ObjectId('661c00000000000000000112')}],True,
+Pranav K,pranav112f@example.com,pranav123,student,[{'course': ObjectId('661c00000000000000000112')}],True,
+John Mathew,john.c101@example.com,john123,instructor,[],True,[ObjectId('661c00000000000000000101')]
+Sarah Thomas,sarah.c101@example.com,sarah123,instructor,[],True,[ObjectId('661c00000000000000000101')]
+David Roy,david.c102@example.com,david123,instructor,[],True,[ObjectId('661c00000000000000000102')]
+Meera Nair,meera.c102@example.com,meera123,instructor,[],True,[ObjectId('661c00000000000000000102')]
+Arun Kumar,arun.c103@example.com,arun123,instructor,[],True,[ObjectId('661c00000000000000000103')]
+Priya Das,priya.c103@example.com,priya123,instructor,[],True,[ObjectId('661c00000000000000000103')]
+Tony Joseph,tony.c104@example.com,tony123,instructor,[],True,[ObjectId('661c00000000000000000104')]
+Lakshmi Menon,lakshmi.c104@example.com,lakshmi123,instructor,[],True,[ObjectId('661c00000000000000000104')]
+Rakesh Pillai,rakesh.c105@example.com,rakesh123,instructor,[],True,[ObjectId('661c00000000000000000105')]
+Divya Raj,divya.c105@example.com,divya123,instructor,[],True,[ObjectId('661c00000000000000000105')]
+Kiran Paul,kiran.c106@example.com,kiran123,instructor,[],True,[ObjectId('661c00000000000000000106')]
+Nisha Roy,nisha.c106@example.com,nisha123,instructor,[],True,[ObjectId('661c00000000000000000106')]
+Ajith Kumar,ajith.c107@example.com,ajith123,instructor,[],True,[ObjectId('661c00000000000000000107')]
+Sona Mathew,sona.c107@example.com,sona123,instructor,[],True,[ObjectId('661c00000000000000000107')]
+Midhun Raj,midhun.c108@example.com,midhun123,instructor,[],True,[ObjectId('661c00000000000000000108')]
+Parvathy S,parvathy.c108@example.com,parvathy123,instructor,[],True,[ObjectId('661c00000000000000000108')]
+Sanjay Kumar,sanjay.c109@example.com,sanjay123,instructor,[],True,[ObjectId('661c00000000000000000109')]
+Veena Thomas,veena.c109@example.com,veena123,instructor,[],True,[ObjectId('661c00000000000000000109')]
+Yadhu Menon,yadhu.c110@example.com,yadhu123,instructor,[],True,[ObjectId('661c00000000000000000110')]
+Deepa Roy,deepa.c110@example.com,deepa123,instructor,[],True,[ObjectId('661c00000000000000000110')]
+Eldho Joseph,eldho.c111@example.com,eldho123,instructor,[],True,[ObjectId('661c00000000000000000111')]
+Gayathri Nair,gayathri.c111@example.com,gayathri123,instructor,[],True,[ObjectId('661c00000000000000000111')]
+Lijo Mathew,lijo.c112@example.com,lijo123,instructor,[],True,[ObjectId('661c00000000000000000112')]
+Pranav Raj,pranav.c112@example.com,pranav123,instructor,[],True,[ObjectId('661c00000000000000000112')]
